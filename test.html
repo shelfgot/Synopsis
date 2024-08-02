@@ -1,0 +1,52 @@
+<!--/* based on K. P. Decker's code; all rights to him */-->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>סינופסיס</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>
+סינופסיס
+</h1>
+<label>
+    <input type="checkbox" id="toggleAll">
+    סנן הכל
+</label>
+<br>
+<label>
+    <input type="checkbox" id="checkboxmnSwitch" value="mnSwitch">
+    ם\ן
+</label>
+<label>
+    <input type="checkbox" id="checkboxnumberCheck" value="numberCheck">
+    מספרים (ב'=שניים)
+</label>
+<label>
+    <input type="checkbox" id="checkboxkitzurCheck" value="kitzurCheck">
+    קיצורים
+</label>
+<label>
+    <input type="checkbox" id="checkboxrasheiTeivot" value="rasheiTeivot">
+    ראשי תיבות [עדיין בפיתוח]
+</label>
+<label>
+    <input type="checkbox">
+    מלא\חסר [עדיין בפיתוח]
+</label>
+<table>
+	<tr>
+		<td contenteditable="true" id="a">בדיק להו רחבה לרבנן ב' חצרות וב' בתים ביניהם זה בא דרך זה ונתן עירובו בזה וזה בא דרך זה ונתן עירובו בזה קנו עירוב או לא מי משוי' להו לגבי דהאי בית ולגבי דהאי בית שער [ולגבי דהאי בית שער ולגבי דהאי בית]
+        </td>
+		<td contenteditable="true" id="b">בדיק להו רחבה לרבנן שתי חצרות ושני בתים ביניהן זה בא דרך זה ונותן עירובו בזה וזה בא דרך זה ומניח עירובו בזה קנו עירוב או לאו משוינן להו האי לגבי דהאי בית ולגבי דהאי בית שער והאי לגבי דהאי בית ולגבי דהאי בית שער או לא
+        </td>
+		<td><pre id="result"></pre></td>
+	</tr>
+</table>
+
+<script src="diff-MODIFIED.js"></script>
+<script src="implementation.js"></script>
+<script src="frontend.js" defer></script>
+</body>
+</html>
