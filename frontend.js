@@ -1,79 +1,87 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const a = document.getElementById('a');
+    const b = document.getElementById('b');
+    const result = document.getElementById('result');
 
-let a = document.getElementById('a');
-let b = document.getElementById('b');
-let result = document.getElementById('result');
+    const checkboxes = ['mnSwitch', 'numberCheck', 'kitzurCheck', 'rasheiTeivot'];
+    const toggleAllCheckbox = document.getElementById('toggleAll');
 
-const checkboxes = ['mnSwitch', 'numberCheck', 'kitzurCheck', 'rasheiTeivot'];
-const toggleAllCheckbox = document.getElementById('toggleAll');
-
-checkboxes.forEach(value => {
-        const checkbox = document.getElementById(`checkbox${value}`);
-        checkbox.addEventListener('change', changed);
-    });
-
-toggleAllCheckbox.addEventListener('change', toggleAll);
-
-
-function changed() {
-
-
-    const options = {};
-
-    checkboxes.forEach(value => {
-        const checkbox = document.getElementById(`checkbox${value}`);
-        options[value] = checkbox.checked;
-    });
-
-	let diff = process(Diff["diffWords"](b.textContent, a.textContent, {oneChangePerToken: true}), options);
-	let fragment = document.createDocumentFragment();
-    console.log(diff);
-	for (let i=0; i < diff.length; i++) {
-        let mask = (ele, word) => {
-            if (ele && word && word.mask) { 
-                ele.classList.add("mask");
-            } 
-            return ele;
-        }
-		let node;
-		if (diff[i].removed) {
-			node = mask(document.createElement('del'), diff[i]);
-			node.appendChild(document.createTextNode(diff[i].value.trim() + " "));
-		} else if (diff[i].added) {
-			node = mask(document.createElement('ins'), diff[i]);
-			node.appendChild(document.createTextNode("● "));
-		} else {
-            //if we have extra words in the first selection
-            if(diff[i].value != "\n" && diff[i].value.trim() != "") {
-    			node = mask(document.createElement("span"), diff[i]);
-                node.appendChild(document.createTextNode(diff[i].value.trim() + " "));
-            }
-		}
-		if(node) fragment.appendChild(node);
-	}
-
-	result.textContent = '';
-	result.appendChild(fragment);
-}
-
-function toggleAll() {
-    const isChecked = this.checked;
-
-    checkboxes.forEach(value => {
-        const checkbox = document.getElementById(`checkbox${value}`);
-        checkbox.checked = isChecked;
-    });
     
-    changed();
-}
+    const checkboxElements = checkboxes.reduce((acc, value) => {
+        acc[value] = document.getElementById(`checkbox${value}`);
+        return acc;
+    }, {});
 
-window.onload = function() {
-	changed();
-};
+    
+    Object.values(checkboxElements).forEach(checkbox => {
+        checkbox.addEventListener('change', handleCheckboxChange);
+    });
 
-a.onpaste = a.onchange = b.onpaste = b.onchange = changed;
+    toggleAllCheckbox.addEventListener('change', handleToggleAll);
 
-if ('oninput' in a) {
-	a.oninput = b.oninput = changed;
-} else {
-	a.onkeyup = b.onkeyup = changed;
-}
+    
+    function handleCheckboxChange() {
+        const options = checkboxes.reduce((acc, value) => {
+            acc[value] = checkboxElements[value].checked;
+            return acc;
+        }, {});
+
+        updateResult(options);
+    }
+
+    
+    function handleToggleAll() {
+        const isChecked = this.checked;
+
+        Object.values(checkboxElements).forEach(checkbox => {
+            checkbox.checked = isChecked;
+        });
+
+        handleCheckboxChange();
+    }
+
+    
+    function updateResult(options) {
+        const diff = Synopsis.process(Diff.diffWords(b.textContent, a.textContent, { oneChangePerToken: true }), options);
+        const fragment = document.createDocumentFragment();
+
+        diff.forEach(item => {
+            let node;
+            if (item.removed) {
+                node = createMaskedElement('del', item);
+                node.textContent = `${item.value.trim()} `;
+            } else if (item.added) {
+                node = createMaskedElement('ins', item);
+                node.textContent = '● ';
+            } else if (item.value.trim() !== "" && item.value !== "\n") {
+                node = createMaskedElement('span', item);
+                node.textContent = `${item.value.trim()} `;
+            }
+
+            if (node) fragment.appendChild(node);
+        });
+
+        result.textContent = '';
+        result.appendChild(fragment);
+    }
+
+    
+    function createMaskedElement(tag, item) {
+        const ele = document.createElement(tag);
+        if (item.mask) {
+            ele.classList.add('mask');
+        }
+        return ele;
+    }
+
+    
+    const inputElements = [a, b];
+    inputElements.forEach(input => {
+        input.addEventListener('paste', handleCheckboxChange);
+        input.addEventListener('change', handleCheckboxChange);
+        input.addEventListener('input', handleCheckboxChange);
+    });
+
+    
+    handleCheckboxChange();
+});
