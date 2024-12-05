@@ -1,14 +1,15 @@
+// frame code from @kpdecker
 document.addEventListener('DOMContentLoaded', () => {
     const a = document.getElementById('a');
     const b = document.getElementById('b');
     const result = document.getElementById('result');
 
-    const checkboxes = ['mnSwitch', 'numberCheck', 'kitzurCheck', 'rasheiTeivot'];
+    const checkboxes = ['ignoreMnSwitch', 'ignoreNumberGematria', 'ignoreKitzurim', 'ignoreRasheiTeivot', 'ignoreMaleiChaser'];
     const toggleAllCheckbox = document.getElementById('toggleAll');
 
     
     const checkboxElements = checkboxes.reduce((acc, value) => {
-        acc[value] = document.getElementById(`checkbox${value}`);
+        acc[value] = document.getElementById(`${value}`);
         return acc;
     }, {});
 
@@ -42,36 +43,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     
     function updateResult(options) {
-        const diff = Synopsis.process(Diff.diffWords(b.textContent, a.textContent, { oneChangePerToken: true }), options);
-        const fragment = document.createDocumentFragment();
-
-        diff.forEach(item => {
-            let node;
-            if (item.removed) {
-                node = createMaskedElement('del', item);
-                node.textContent = `${item.value.trim()} `;
-            } else if (item.added) {
-                node = createMaskedElement('ins', item);
-                node.textContent = '● ';
-            } else if (item.value.trim() !== "" && item.value !== "\n") {
-                node = createMaskedElement('span', item);
-                node.textContent = `${item.value.trim()} `;
-            }
-
-            if (node) fragment.appendChild(node);
-        });
-
         result.textContent = '';
-        result.appendChild(fragment);
-    }
 
-    
-    function createMaskedElement(tag, item) {
-        const ele = document.createElement(tag);
-        if (item.mask) {
-            ele.classList.add('mask');
+        const oldText = a.textContent;
+        const newText = b.textContent;
+        
+
+        const diff = Synopsis.process(oldText, newText, options);
+        const fragment = document.createDocumentFragment();
+        for(const word of diff) {
+            node = (word.highlighted) ? document.createElement('del') : document.createElement('span');
+            node.textContent = `${word.text}`;
+            fragment.appendChild(node);
+            const space = document.createElement('span');
+            space.textContent = " ";
+            fragment.appendChild(space);
+            result.appendChild(fragment);
         }
-        return ele;
     }
 
     

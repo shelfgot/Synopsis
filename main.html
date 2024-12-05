@@ -1,4 +1,4 @@
-<!--/* based on K. P. Decker's code; all rights to him */-->
+<!--/* based on K. P. Decker's code; all rights belong to him */-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,37 +16,37 @@
 </label>
 <br>
 <label>
-    <input type="checkbox" id="checkboxmnSwitch" value="mnSwitch">
+    <input type="checkbox" id="ignoreMnSwitch" value="ignoreMnSwitch">
     ם\ן
 </label>
 <label>
-    <input type="checkbox" id="checkboxnumberCheck" value="numberCheck">
+    <input type="checkbox" id="ignoreNumberGematria" value="ignoreNumberGematria">
     מספרים (ב'=שניים)
 </label>
 <label>
-    <input type="checkbox" id="checkboxkitzurCheck" value="kitzurCheck">
+    <input type="checkbox" id="ignoreKitzurim" value="ignoreKitzurim">
     קיצורים
 </label>
 <label>
-    <input type="checkbox" id="checkboxrasheiTeivot" value="rasheiTeivot">
-    ראשי תיבות [עדיין בפיתוח]
+    <input type="checkbox" id="ignoreRasheiTeivot" value="ignoreRasheiTeivot">
+    ראשי תיבות
 </label>
 <label>
-    <input type="checkbox">
-    מלא\חסר [עדיין בפיתוח]
+    <input type="checkbox" id="ignoreMaleiChaser" value="ignoreMaleiChaser">
+    מלא\חסר
 </label>
 <table>
 	<tr>
-		<td contenteditable="true" id="a">בדיק להו רחבה לרבנן ב' חצרות וב' בתים ביניהם זה בא דרך זה ונתן עירובו בזה וזה בא דרך זה ונתן עירובו בזה קנו עירוב או לא מי משוי' להו לגבי דהאי בית ולגבי דהאי בית שער [ולגבי דהאי בית שער ולגבי דהאי בית]
+		<td contenteditable="true" id="a"> לא כן התירו אמר לי' רב אחא בר אביי לרבינא ה"ד אילימ' בשוגג
         </td>
-		<td contenteditable="true" id="b">בדיק להו רחבה לרבנן שתי חצרות ושני בתים ביניהן זה בא דרך זה ונותן עירובו בזה וזה בא דרך זה ומניח עירובו בזה קנו עירוב או לאו משוינן להו האי לגבי דהאי בית ולגבי דהאי בית שער והאי לגבי דהאי בית ולגבי דהאי בית שער או לא
+		<td contenteditable="true" id="b"> לא התירו א"ל רב אחא בר אביי לרבינא היכי דמי אילימא בשוגג
         </td>
 		<td><pre id="result"></pre></td>
 	</tr>
 </table>
 
-<script src="diff-MODIFIED.js"></script>
-<script src="implementation.js"></script>
+<script src="myers.js"></script>
+<script src="Synopsis.js"></script>
 <script src="frontend.js" defer></script>
 </body>
 </html>

@@ -75,10 +75,14 @@ const Synopsis = (() => {
         rasheiTeivot: (a, b, otherWords, index) => {
             if (!a) return false;
             if (a.includes("\"")) {
-                const lettersInRT = a.split("");
+                const lettersInRT = a.split("\"");
                 let isValid = true;
+                possibleRTWords = otherWords.slice(index + 2, -1);
+                possibleRTWords.unshift(otherWords[index]);
+                console.log(possibleRTWords);
                 lettersInRT.forEach((letter, i) => {
-                    if (letter !== otherWords[i].charAt(0)) {
+                    console.log(i, possibleRTWords[i])
+                    if (letter !== possibleRTWords[i].value.charAt(0)) {
                         isValid = false;
                     }
                 });
